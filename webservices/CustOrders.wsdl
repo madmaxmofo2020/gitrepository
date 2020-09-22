@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CustOrders" targetNamespace="urn:CustOrdersSvc" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:CustOrdersSvc" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:prodata="urn:schemas-progress-com:xml-prodata:0001" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:S1="urn:soap-fault:details" xmlns:S2="urn:CustOrdersSvc:CustOrders">
+<wsdl:documentation>EncodingType=DOC_LITERAL, Proxygen_Product=Progress Version 11.7</wsdl:documentation>
+  <wsdl:types>
+<schema elementFormDefault="unqualified" targetNamespace="urn:soap-fault:details" xmlns="http://www.w3.org/2001/XMLSchema"><element name="FaultDetail"><complexType><sequence><element name="errorMessage" type="xsd:string"/><element name="requestID" type="xsd:string"/></sequence></complexType></element></schema>
+<schema elementFormDefault="qualified" targetNamespace="urn:CustOrdersSvc:CustOrders" xmlns="http://www.w3.org/2001/XMLSchema"><complexType name="DataSetHandleParam"><annotation><documentation>This is the schema definition for an OpenEdge dynamic ProDataSet parameter.  The first element in this sequence must be a w3c XML Schema document describing the definition of the ProDataSet.  The second element contains the serialized data.</documentation></annotation><sequence><any maxOccurs="2" minOccurs="2"/></sequence></complexType><element name="dsCustOrd"><complexType><sequence><element maxOccurs="unbounded" minOccurs="0" name="ttCust"><complexType><sequence><element name="CustNum" nillable="true" type="xsd:int"/><element name="Name" nillable="true" type="xsd:string"/><element name="Balance" nillable="true" type="xsd:decimal"/></sequence></complexType></element><element maxOccurs="unbounded" minOccurs="0" name="ttOrder"><complexType><sequence><element name="OrderNum" nillable="true" type="xsd:int"/><element name="CustNum" nillable="true" type="xsd:int"/><element name="OrderDate" nillable="true" type="xsd:date"/></sequence></complexType></element></sequence></complexType><unique name="CustNumIdx" prodata:primaryIndex="true"><selector xpath=".//S2:ttCust"/><field xpath="S2:CustNum"/></unique><unique name="OrderNumIdx" prodata:primaryIndex="true"><selector xpath=".//S2:ttOrder"/><field xpath="S2:OrderNum"/></unique><unique name="CustOrdIdx"><selector xpath=".//S2:ttOrder"/><field xpath="S2:CustNum"/><field xpath="S2:OrderNum"/></unique><keyref name="CustOrdRel" refer="S2:CustNumIdx"><selector xpath=".//S2:ttOrder"/><field xpath="S2:CustNum"/></keyref></element><element name="getCustOrders"><complexType><sequence><element maxOccurs="2" minOccurs="2" name="iCustNum" nillable="true" type="xsd:int"/></sequence></complexType></element><element name="getCustOrdersResponse"><complexType><sequence><element name="result" nillable="true" type="xsd:string"/><element ref="S2:dsCustOrd"/></sequence></complexType></element><element name="getCustOrders_Dyn"><complexType><sequence><element maxOccurs="2" minOccurs="2" name="iCustNum" nillable="true" type="xsd:int"/></sequence></complexType></element><element name="getCustOrders_DynResponse"><complexType><sequence><element name="result" nillable="true" type="xsd:string"/><element name="hDset" nillable="true" type="S2:DataSetHandleParam"/></sequence></complexType></element></schema>
+  </wsdl:types>
+  <wsdl:message name="FaultDetailMessage">
+    <wsdl:part name="FaultDetail" element="S1:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="CustOrders_getCustOrders_Dyn">
+    <wsdl:part name="parameters" element="S2:getCustOrders_Dyn"/>
+  </wsdl:message>
+  <wsdl:message name="CustOrders_getCustOrders">
+    <wsdl:part name="parameters" element="S2:getCustOrders"/>
+  </wsdl:message>
+  <wsdl:message name="CustOrders_getCustOrdersResponse">
+    <wsdl:part name="parameters" element="S2:getCustOrdersResponse"/>
+  </wsdl:message>
+  <wsdl:message name="CustOrders_getCustOrders_DynResponse">
+    <wsdl:part name="parameters" element="S2:getCustOrders_DynResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="CustOrdersObj">
+    <wsdl:operation name="getCustOrders">
+      <wsdl:input message="tns:CustOrders_getCustOrders"/>
+      <wsdl:output message="tns:CustOrders_getCustOrdersResponse"/>
+      <wsdl:fault name="CustOrdersFault" message="tns:FaultDetailMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="getCustOrders_Dyn">
+      <wsdl:input message="tns:CustOrders_getCustOrders_Dyn"/>
+      <wsdl:output message="tns:CustOrders_getCustOrders_DynResponse"/>
+      <wsdl:fault name="CustOrdersFault" message="tns:FaultDetailMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CustOrdersObj" type="tns:CustOrdersObj">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getCustOrders">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CustOrdersFault">
+        <soap:fault name="CustOrdersFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCustOrders_Dyn">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CustOrdersFault">
+        <soap:fault name="CustOrdersFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CustOrdersService">
+    <wsdl:port name="CustOrdersObj" binding="tns:CustOrdersObj">
+<wsdl:documentation></wsdl:documentation>
+      <soap:address location="http://172.29.16.216:8810/tsWebServices/soap"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
